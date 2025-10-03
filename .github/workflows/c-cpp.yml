@@ -1,5 +1,3 @@
-yaml​
-
 # .github/workflows/node-ci.yml
 
 name: Node.js CI
