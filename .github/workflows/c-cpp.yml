@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest # ubuntu-24.04を指します
     strategy:
       matrix:
-        node-version: # Node.js 18はEOLのため、20と22を対象
+        node-version: ${{20}} # Node.js 18はEOLのため、20と22を対象
 
     steps:
       - name: Checkout repository
