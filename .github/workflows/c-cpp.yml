@@ -1,4 +1,8 @@
-name: C/C++ CI
+yaml​
+
+# .github/workflows/node-ci.yml
+
+name: Node.js CI
 
 on:
   push:
@@ -6,18 +10,33 @@ on:
   pull_request:
     branches: [ "main" ]
 
-jobs:
-  build:
+# ジョブが必要とする最小限の権限を設定
+permissions:
+  contents: read
 
-    runs-on: ubuntu-latest
+jobs:
+  build-and-test:
+    name: Build and Test on Node.js ${{ matrix.node-version }}
+    runs-on: ubuntu-latest # ubuntu-24.04を指します
+    strategy:
+      matrix:
+        node-version: # Node.js 18はEOLのため、20と22を対象
 
     steps:
-    - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+      - name: Checkout repository
+        uses: actions/checkout@v5 # Node 20ランタイムに対応した最新版
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v5 # 最新版に更新
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm' # npmの依存関係をキャッシュ
+
+      - name: Install dependencies
+        run: npm ci # package-lock.jsonに基づき、高速かつ確実にインストール
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build project (if build script exists)
+        run: npm run build --if-present
