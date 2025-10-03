@@ -1,0 +1,36 @@
+# .github/workflows/node-ci.yml
+name: Node.js CI
+
+on:
+  pull_request:
+    branches: [ "main" ]  # PR作成/更新時に実行
+
+permissions:
+  contents: read  # 最小権限
+
+jobs:
+  build-and-test:
+    name: Build & Test (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest   # 現在は Ubuntu 24.04 を指します
+    strategy:
+      matrix:
+        node: [20, 22]       # ★必須：複数バージョンで並列実行
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node ${{ matrix.node }}
+        uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm                # 依存関係のキャッシュ
+
+      - name: Install dependencies
+        run: npm ci                 # lockfile に基づきクリーンに導入
+
+      - name: Run tests
+        run: npm test               # package.json の "test" を実行
+
+      - name: Build (if present)
+        run: npm run build --if-present
