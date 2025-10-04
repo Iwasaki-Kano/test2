@@ -1,36 +1,40 @@
 # .github/workflows/node-ci.yml
+
 name: Node.js CI
 
 on:
+  push:
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]  # PR作成/更新時に実行
+    branches: [ "main" ]
 
+# ジョブが必要とする最小限の権限を設定
 permissions:
-  contents: read  # 最小権限
+  contents: read
 
 jobs:
   build-and-test:
-    name: Build & Test (Node ${{ matrix.node }})
-    runs-on: ubuntu-latest   # 現在は Ubuntu 24.04 を指します
+    name: Build and Test on Node.js ${{ matrix.node-version }}
+    runs-on: ubuntu-latest # ubuntu-24.04を指します
     strategy:
       matrix:
-        node: [20, 22]       # ★必須：複数バージョンで並列実行
+          node-version: ['20.x', '22.x'] # Node.js 18はEOLのため、20と22を対象
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
+      - name: Checkout repository
+        uses: actions/checkout@v5 # Node 20ランタイムに対応した最新版
 
-      - name: Setup Node ${{ matrix.node }}
-        uses: actions/setup-node@v5
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v5 # 最新版に更新
         with:
-          node-version: ${{ matrix.node }}
-          cache: npm                # 依存関係のキャッシュ
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm' # npmの依存関係をキャッシュ
 
       - name: Install dependencies
-        run: npm ci                 # lockfile に基づきクリーンに導入
+        run: npm ci # package-lock.jsonに基づき、高速かつ確実にインストール
 
       - name: Run tests
-        run: npm test               # package.json の "test" を実行
+        run: npm test
 
-      - name: Build (if present)
+      - name: Build project (if build script exists)
         run: npm run build --if-present
