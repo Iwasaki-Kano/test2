@@ -1,0 +1,11 @@
+# プロジェクト直下へ
+npm init -y
+npm pkg set scripts.test="echo \"OK\"" \
+            scripts.build="echo \"build ok\""
+
+# 空でもOK、lockを作る
+npm install --package-lock-only
+
+git add package.json package-lock.json
+git commit -m "Add minimal package.json & lock"
+git push
