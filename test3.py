@@ -1,5 +1,3 @@
-# test2
-
 # sample.py
 
 def calc_average(numbers):
