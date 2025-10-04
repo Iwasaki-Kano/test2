@@ -1,5 +1,5 @@
 # .github/workflows/minimal-node-ci.yml
-name: Minimal Node CI
+name: Minimal Node CI (no-fail)
 
 on:
   push:
@@ -13,12 +13,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      # 直下に package.json が無ければ以降をスキップ（成功扱い）
+      - name: Skip when no Node project in repo root
+        if: ${{ hashFiles('package.json') == '' }}
+        run: echo "No package.json found in repository root. Skipping Node steps."
+
       - name: Setup Node.js
+        if: ${{ hashFiles('package.json') != '' }}
         uses: actions/setup-node@v5
         with:
           node-version: '20.x'
 
-      - name: Install dependencies (works with or without lockfile)
+      - name: Install dependencies (lockfile-aware)
+        if: ${{ hashFiles('package.json') != '' }}
         run: |
           if [ -f package-lock.json ]; then
             npm ci
@@ -26,8 +33,10 @@ jobs:
             npm install
           fi
 
-      - name: Run tests (if present)
+      - name: Run tests (if script exists)
+        if: ${{ hashFiles('package.json') != '' }}
         run: npm test --if-present
 
-      - name: Build (if present)
+      - name: Build (if script exists)
+        if: ${{ hashFiles('package.json') != '' }}
         run: npm run build --if-present
