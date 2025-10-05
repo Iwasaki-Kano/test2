@@ -1,4 +1,4 @@
-name: Main
+name: Simple CI
 
 on:
   push:
@@ -8,22 +8,22 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: コードをチェックアウト
         uses: actions/checkout@v5
 
       - name: Node.jsをセットアップ
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 20
 
       - name: 依存関係をインストール
-        run: npm install
+        run: npm ci
 
-      - name: ビルド
-        run: npm run build
+      - name: ビルド（存在すれば）
+        run: npm run build --if-present
 
       - name: テスト実行
         run: npm test
