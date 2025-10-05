@@ -1,5 +1,5 @@
 # .github/workflows/minimal-node-ci.yml
-name: Minimal Node CI (no-fail)
+name: Main
 
 on:
   push:
