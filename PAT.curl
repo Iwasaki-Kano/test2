@@ -1,0 +1,16 @@
+curl -L \
+  -X POST \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer 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" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  -H "Content-Type: application/json" \
+  https://models.github.ai/inference/chat/completions \
+  -d '{
+    "model": "openai/gpt-4o-mini",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What is the capital of France?"
+      }
+    ]
+  }'
