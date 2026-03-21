@@ -1,28 +1,59 @@
-# Sample Project
+# test2
 
 ## Overview
-This project is a simple sample application used to test GitHub Copilot coding agent (Agent HQ).  
-It demonstrates how AI agents can automatically update code, improve documentation, and create pull requests.
+
+`test2` is a lightweight project that demonstrates an AI-assisted development workflow using GitHub Copilot. It serves as a reference implementation for integrating automated code updates, documentation improvements, and pull request creation via GitHub Copilot agents.
 
 ## Features
-- Simple project structure
-- Easy to modify and extend
-- Suitable for testing AI-driven development workflows
+
+- Minimal, well-structured project layout
+- Python utility module with unit-testable helper functions
+- Automated workflow support via GitHub Actions
+- Designed for rapid iteration and AI-driven development
+
+## Setup
+
+**Prerequisites**
+
+- Git
+- Python 3.8+
+- Node.js 18+ and npm
+- A GitHub account (GitHub Copilot recommended for AI-assisted workflows)
+
+**Installation**
+
+```bash
+git clone https://github.com/Iwasaki-Kano/test2.git
+cd test2
+```
+
+No additional dependencies are required for the core scripts.
 
 ## Usage
-1. Clone this repository
-2. Open the project in your editor
-3. Modify files or assign tasks to Copilot agent
 
-## Example Task
-You can assign tasks like:
-- Improve this README
-- Add new features
-- Fix bugs
+Run the Python utility directly:
 
-## Requirements
-- GitHub account
-- GitHub Copilot enabled
+```bash
+python test3.py
+```
 
-## Notes
-This is a demo project for testing purposes only.
+To verify the build step:
+
+```bash
+npm run build
+```
+
+To run tests:
+
+```bash
+npm test
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m 'Add your feature'`)
+4. Push to the branch (`git push origin feature/your-feature`)
+5. Open a pull request
+
