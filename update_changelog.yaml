@@ -1,0 +1,10 @@
+jobs:
+  update_changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Codexでチェンジログを更新
+        run: |
+          npm install -g @openai/codex
+          export AZURE_OPENAI_API_KEY="${{ secrets.AZURE_OPENAI_KEY }}"
+          codex -p azure exec --full-auto "次のリリース向けにCHANGELOGを更新"
